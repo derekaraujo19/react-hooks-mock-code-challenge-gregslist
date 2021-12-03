@@ -18,11 +18,19 @@ function App() {
       .then((items) => setListings(items));
   }, []);
 
+  function handleDeleteListing(deletedListing){
+    const updatedListings = listings.filter((listing) => listing.id !== deletedListing.id);
+    setListings(updatedListings);
+  }
+
   // console.log(listings);
   return (
     <div className="app">
       <Header />
-      <ListingsContainer listings={listings} />
+      <ListingsContainer
+        listings={listings}
+        handleDeleteListing={handleDeleteListing}
+      />
     </div>
   );
 }

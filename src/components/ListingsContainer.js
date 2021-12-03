@@ -2,7 +2,7 @@ import React from "react";
 import ListingCard from "./ListingCard";
 
 
-function ListingsContainer({listings}) {
+function ListingsContainer({listings, handleDeleteListing}) {
   return (
     <main>
       <ul className="cards">
@@ -12,6 +12,8 @@ function ListingsContainer({listings}) {
           img={listing.image}
           description={listing.description}
           location={listing.location}
+          listing={listing}
+          handleDeleteListing={handleDeleteListing}
           />
         ))}
       </ul>
