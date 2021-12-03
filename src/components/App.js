@@ -8,6 +8,11 @@ import ListingsContainer from "./ListingsContainer";
 // update state
 // send listings down to ListingsContainer where it will get mapped out to ListingCard
 
+// DELIVERABLE 4:
+
+// Create local state in Search to house value of search bar, set via onChange
+// handle submit by sending search value (in state value) back up to App
+// in App, create handleSearch that compares search state with listings state
 
 function App() {
   const [listings, setListings] = useState([]);
@@ -23,10 +28,15 @@ function App() {
     setListings(updatedListings);
   }
 
+  function filterSearch(searchValue){
+      let filteredSearch = listings.filter((listing) => (listing.description).includes(searchValue));
+    }
+
+
   // console.log(listings);
   return (
     <div className="app">
-      <Header />
+      <Header onSubmitSearch={filterSearch}/>
       <ListingsContainer
         listings={listings}
         handleDeleteListing={handleDeleteListing}
