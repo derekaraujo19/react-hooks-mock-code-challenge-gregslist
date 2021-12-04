@@ -14,8 +14,12 @@ import ListingsContainer from "./ListingsContainer";
 // handle submit by sending search value (in state value) back up to App
 // in App, create handleSearch that compares search state with listings state
 
+
+// ** Problems with two states - when you delete one when you're in a filtered view, it doesn't remove it from the other
+
 function App() {
   const [listings, setListings] = useState([]);
+  const [filteredListings, setFilteredListings] = useState([]);
 
   useEffect(() => {
     fetch("http://localhost:6001/listings")
@@ -23,13 +27,20 @@ function App() {
       .then((items) => setListings(items));
   }, []);
 
+
   function handleDeleteListing(deletedListing){
     const updatedListings = listings.filter((listing) => listing.id !== deletedListing.id);
     setListings(updatedListings);
+    setFilteredListings(updatedListings);
   }
 
-  function filterSearch(searchValue){
-      let filteredSearch = listings.filter((listing) => (listing.description).includes(searchValue));
+  function filterSearch(searchValue) {
+    if (searchValue === "") {
+      setFilteredListings([]);
+    } else {
+      const filteredSearch = listings.filter((listing) => (listing.description).includes(searchValue))
+      setFilteredListings(filteredSearch)
+    }
     }
 
 
@@ -38,7 +49,7 @@ function App() {
     <div className="app">
       <Header onSubmitSearch={filterSearch}/>
       <ListingsContainer
-        listings={listings}
+        listings={filteredListings.length > 0 ? filteredListings : listings}
         handleDeleteListing={handleDeleteListing}
       />
     </div>
